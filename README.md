@@ -18,9 +18,11 @@ There are 2 different ways you can use this library.
 
 ```php
 require_once("googleanalytics.php");
-Ga::hit("UA-0XXXX043-1");
+googleanalytics::hit("UA-0XXXX043-1");
+#set app name of referring tacking
+googleanalytics::hit("UA-0XXXX043-1","app_name");
 #and with switch
-Ga::hit("UA-0XXXX043-1", true);
+googleanalytics::hit("UA-0XXXX043-1",null, true);
 ```
 
 ### Notes

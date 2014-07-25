@@ -7,8 +7,8 @@
  *   Rewriting it as per the guidelines here: http://goo.gl/ii3Bvl  
  */
 
-class Ga {
-    public static function hit($account_id,$switch = false) {
+class googleanalytics {
+    public static function hit($account_id,$service_name = null,$switch = false) {
 
     // Your UA code
     // UA-********-*
@@ -41,6 +41,21 @@ class Ga {
     // The current page URL
     $PAGE = $_SERVER["REQUEST_URI"];
 
+    /** 
+     * Referer
+     *
+     * service_name set to a value
+     *    check to see if HTTP_X_MXIT_CONTACT is equal to it if not set referer
+     *
+     * service_name NOT set to a value
+     *    Use HTTP_REFERER if set else use '-'
+    */
+    $DR = (isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : "-";
+    if(isset($_SERVER["HTTP_X_MXIT_CONTACT"]) && !is_null($service_name) && $service_name != $_SERVER["HTTP_X_MXIT_CONTACT"])
+    {
+      $DR = $_SERVER["HTTP_X_MXIT_CONTACT"];
+    } 
+
     // GA's URL to POST to
     $GA_URL = "http://www.google-analytics.com/collect";
 
@@ -49,7 +64,6 @@ class Ga {
     $UID = isset($_SERVER["HTTP_X_MXIT_USERID_R"]) ? md5($_SERVER["HTTP_X_MXIT_USERID_R"]) : uniqid();
     $UA  = isset($_SERVER["HTTP_X_DEVICE_USER_AGENT"]) ? $_SERVER["HTTP_X_DEVICE_USER_AGENT"] : $_SERVER['HTTP_USER_AGENT'];
     $MXIT_PIXELS = isset($_SERVER["HTTP_UA_PIXELS"]) ? $_SERVER["HTTP_UA_PIXELS"] : '';
-    $DR = (isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : "-";
     $ip = "127.0.0.1";
     if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
                 $ip = array_shift(explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']));
