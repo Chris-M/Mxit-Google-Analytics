@@ -53,7 +53,7 @@ class googleanalytics {
     $DR = (isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : "-";
     if(isset($_SERVER["HTTP_X_MXIT_CONTACT"]) && !is_null($service_name) && $service_name != $_SERVER["HTTP_X_MXIT_CONTACT"])
     {
-      $DR = $_SERVER["HTTP_X_MXIT_CONTACT"];
+      $DR = "http://". $_SERVER["HTTP_X_MXIT_CONTACT"];
     } 
 
     // GA's URL to POST to
